@@ -25,4 +25,11 @@ public class Pelicula {
 
     private boolean proyectada;
 
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
 }

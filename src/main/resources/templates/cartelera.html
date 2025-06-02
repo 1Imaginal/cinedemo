@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cartelera</title>
+</head>
+<body>
+    <h1>Cartelera CineDemo</h1>
+    <ul>
+        <li th:each="p : ${peliculas}">
+            <strong th:text="${p.nombre}">Nombre</strong>
+        </li>
+    </ul>
+</body>
+</html>
