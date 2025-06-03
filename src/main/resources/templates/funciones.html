@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Funciones</title>
+</head>
+<body>
+    <h1 th:text="|Funciones para ${nombre}|"></h1>
+    <ol>
+        <li th:each="f : ${funciones}">
+            <p th:text="${f.horario}"></p>
+            <p th:text="|Sala ${f.idSala}|"></p>
+            <p th:text="|Pelicula ${f.idPelicula}|"></p>
+        </li>
+    </ol>
+    <a href="../">Regresar</a>
+</body>
+</html>

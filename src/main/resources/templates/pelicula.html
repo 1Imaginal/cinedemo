@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Pelicula</title>
+    <title th:text="${pelicula.getNombre()}"></title>
 </head>
 <body>
-    <h1>Titulo de la pelicula</h1>
-    <p>Descripcion de la pelicula</p>
-    <p>Duracion de la pelicula</p>
-    <p>Clasificacion de la pelicula</p>
+<a href="/cartelera">Regresar a la cartelera</a>
+    <h1 th:text="${pelicula.nombre}"></h1>
+    <p th:text="${pelicula.descripcion}"></p>
+    <p th:text="|${pelicula.duracion} Minutos|">Duracion de la pelicula</p>
+    <p th:text="|Clasificacion ${pelicula.clasificacion}|">Clasificacion de la pelicula</p><br>
+    <a th:href="@{/funciones(id=${pelicula.id})}"><h2>Ver funciones</h2></a>
 </body>
 </html>

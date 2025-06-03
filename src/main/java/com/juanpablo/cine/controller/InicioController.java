@@ -11,6 +11,6 @@ public class InicioController {
     @RequestMapping("/")
     public String inicio(){
         ArrayList<String> peliculas;
-        return "index.html";
+        return "index";
     }
 }

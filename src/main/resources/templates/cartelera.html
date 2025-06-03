@@ -8,7 +8,7 @@
     <h1>Cartelera CineDemo</h1>
     <ul>
         <li th:each="p : ${peliculas}">
-            <strong th:text="${p.nombre}">Nombre</strong>
+            <a th:href="@{${p.id}}"><strong th:text="${p.nombre}">Nombre</strong></a>
         </li>
     </ul>
 </body>

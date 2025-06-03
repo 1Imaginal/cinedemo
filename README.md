@@ -4,7 +4,8 @@ Web movie theater app where you can see available movies and reserve tickets
 /* TODO
 
 Get a list of all available movies - In progress
-Access details of individual movies - X
+Access details of individual movies - In progress
+Get a list of available movie screenings - In progress
 Search and filters for movies - X
 Show actors and directors - X
 Get available seats from a room proyecting a movie - X
@@ -15,6 +16,7 @@ Review system for movies - X
 Error handling - X
 Admin functions for managing movies - X
 Admin dashboard displaying relevant information - X
+Style and presentation - X
 
 */
 
