@@ -11,6 +11,8 @@
             <p th:text="${f.horario}"></p>
             <p th:text="|Sala ${f.idSala}|"></p>
             <p th:text="|Pelicula ${f.idPelicula}|"></p>
+            <span th:utext="${'&#36;'+'&nbsp;'}" ></span></b><span th:text="${f.precio}"></span>
+            <a th:href="@{/asientos(idFuncion=${f.id})}">Elegir asientos</a>
         </li>
     </ol>
     <a href="../">Regresar</a>

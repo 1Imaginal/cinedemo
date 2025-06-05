@@ -7,7 +7,4 @@ public class Sala {
 
     private boolean[][] asientos;
 
-    public Sala(){
-        asientos = new boolean[5][5];
-    }
 }

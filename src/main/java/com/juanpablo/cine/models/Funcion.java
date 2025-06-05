@@ -21,19 +21,5 @@ public class Funcion {
 
     private Timestamp horario;
 
-    public int getId() {
-        return id;
-    }
-
-    public int getIdSala() {
-        return idSala;
-    }
-
-    public int getIdPelicula() {
-        return idPelicula;
-    }
-
-    public Timestamp getHorario() {
-        return horario;
-    }
+    private int precio;
 }
