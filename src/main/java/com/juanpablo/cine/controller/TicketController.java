@@ -1,5 +1,6 @@
 package com.juanpablo.cine.controller;
 
+import com.juanpablo.cine.dto.TicketFuncion;
 import com.juanpablo.cine.models.Asiento;
 import com.juanpablo.cine.models.Funcion;
 import com.juanpablo.cine.models.Ticket;
@@ -13,7 +14,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.Stack;
 
 @Controller
 public class TicketController {
@@ -53,11 +57,20 @@ public class TicketController {
         ticket.setIdUsuario(1);
         ticketRepository.save(ticket);
 
-        return "tickets";
+        return "compra";
     }
 
     @GetMapping("/tickets")
-    public String mostrarTickets(){
+    public String mostrarTickets(Model model){
+        List<Ticket> ticketList = ticketRepository.findAll();
+        List<TicketFuncion> ticketFuncionList = new ArrayList<>();
+
+        for (Ticket ticket : ticketList) {
+            Funcion funcion = funcionRepository.findById((long) ticket.getIdFuncion()).orElse(null);
+            ticketFuncionList.add(new TicketFuncion(ticket, funcion));
+        }
+
+        model.addAttribute("ticketsFuncion", ticketFuncionList);
         return "tickets";
     }
 }

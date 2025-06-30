@@ -22,4 +22,8 @@ public class Funcion {
     private Timestamp horario;
 
     private int precio;
+
+    @ManyToOne
+    @JoinColumn(name = "idPelicula", insertable = false, updatable = false)
+    private Pelicula pelicula;
 }
