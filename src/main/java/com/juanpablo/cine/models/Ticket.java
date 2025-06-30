@@ -1,7 +1,6 @@
 package com.juanpablo.cine.models;
 
 import jakarta.persistence.*;
-import lombok.Generated;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,11 +11,11 @@ public class Ticket {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
-    private int idUsuario;
+    private long idUsuario;
 
-    private int idAsiento;
+    private long idAsiento;
 
-    private int idFuncion;
+    private long idFuncion;
 }

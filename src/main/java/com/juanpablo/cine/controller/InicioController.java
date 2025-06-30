@@ -30,7 +30,7 @@ public class InicioController {
 
     @GetMapping("/registro")
     public String register(){
-        return "registro";
+        return "registrar";
     }
 
     @PostMapping("/registro")

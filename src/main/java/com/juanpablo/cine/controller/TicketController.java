@@ -4,10 +4,12 @@ import com.juanpablo.cine.dto.TicketFuncion;
 import com.juanpablo.cine.models.Asiento;
 import com.juanpablo.cine.models.Funcion;
 import com.juanpablo.cine.models.Ticket;
+import com.juanpablo.cine.models.Usuario;
 import com.juanpablo.cine.repository.AsientoRepository;
 import com.juanpablo.cine.repository.FuncionRepository;
 import com.juanpablo.cine.repository.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +35,8 @@ public class TicketController {
 
     @PostMapping("/tickets")
     public String comprarTicket(Model model, @RequestParam(name = "idFuncion") long idFuncion,
-                                @RequestParam(name = "idAsiento") long idAsiento){
+                                @RequestParam(name = "idAsiento") long idAsiento,
+                                @AuthenticationPrincipal Usuario usuario){
 
         Optional<Funcion> funcionOptional = funcionRepository.findById(idFuncion);
         if(funcionOptional.isEmpty()){
@@ -52,17 +55,17 @@ public class TicketController {
 
         Ticket ticket = new Ticket();
 
-        ticket.setIdFuncion((int) idFuncion);
-        ticket.setIdAsiento((int) idAsiento);
-        ticket.setIdUsuario(1);
+        ticket.setIdFuncion(idFuncion);
+        ticket.setIdAsiento(idAsiento);
+        ticket.setIdUsuario(usuario.getId());
         ticketRepository.save(ticket);
 
         return "compra";
     }
 
     @GetMapping("/tickets")
-    public String mostrarTickets(Model model){
-        List<Ticket> ticketList = ticketRepository.findAll();
+    public String mostrarTickets(Model model, @AuthenticationPrincipal Usuario usuario){
+        List<Ticket> ticketList = ticketRepository.findAllByIdUsuario(usuario.getId());
         List<TicketFuncion> ticketFuncionList = new ArrayList<>();
 
         for (Ticket ticket : ticketList) {
