@@ -38,4 +38,9 @@ public class InicioController {
         usuarioService.registrarUsuario(usuario);
             return "redirect:/login";
     }
+
+    @RequestMapping("/admin")
+    public String dashboard(){
+        return "dashboard";
+    }
 }

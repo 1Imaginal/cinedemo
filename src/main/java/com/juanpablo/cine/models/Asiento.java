@@ -11,9 +11,13 @@ public class Asiento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private int idFuncion;
+    private Long id;
+
     private int numero;
+
+    @ManyToOne
+    private Funcion funcion;
+
     private boolean disponible;
 }
 

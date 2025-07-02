@@ -13,9 +13,15 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private long idUsuario;
+    @ManyToOne
+    @JoinColumn(name = "id_usuario", nullable = false)
+    private Usuario usuario;
 
-    private long idAsiento;
+    @ManyToOne
+    @JoinColumn(name = "id_asiento", nullable = false)
+    private Asiento asiento;
 
-    private long idFuncion;
+    @ManyToOne
+    @JoinColumn(name = "id_funcion", nullable = false)
+    private Funcion funcion;
 }

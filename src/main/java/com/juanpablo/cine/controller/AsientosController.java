@@ -31,17 +31,17 @@ public class AsientosController {
         Funcion funcion = funcionOptional.get();
         model.addAttribute("funcion", funcion);
 
-        Optional<Asiento> optionalAsiento =asientoRepository.findByNumeroAndIdFuncion(1, (int) idFuncion);
+        Optional<Asiento> optionalAsiento =asientoRepository.findByNumeroAndFuncion(1, funcion);
         if(optionalAsiento.isEmpty()){
             for(int i=1;i<=25;i++){
                 Asiento asiento = new Asiento();
                 asiento.setNumero(i);
-                asiento.setIdFuncion((int) idFuncion);
+                asiento.setFuncion(funcion);
                 asiento.setDisponible(true);
                 asientoRepository.save(asiento);
             }
         }
-        List<Asiento> asientos= asientoRepository.findAllByIdFuncionOrderByNumeroAsc((int) idFuncion);
+        List<Asiento> asientos= asientoRepository.findAllByFuncionOrderByNumeroAsc(funcion);
         model.addAttribute("asientos", asientos);
         return "asientos";
         }

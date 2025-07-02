@@ -16,10 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Stack;
+import java.util.*;
 
 @Controller
 public class TicketController {
@@ -34,7 +31,7 @@ public class TicketController {
     AsientoRepository asientoRepository;
 
     @PostMapping("/tickets")
-    public String comprarTicket(Model model, @RequestParam(name = "idFuncion") long idFuncion,
+    public String comprarTicket(@RequestParam(name = "idFuncion") long idFuncion,
                                 @RequestParam(name = "idAsiento") long idAsiento,
                                 @AuthenticationPrincipal Usuario usuario){
 
@@ -42,12 +39,12 @@ public class TicketController {
         if(funcionOptional.isEmpty()){
             return "error";
         }
+        Funcion funcion = funcionOptional.get();
 
         Optional<Asiento> asientoOptional = asientoRepository.findById(idAsiento);
         if(asientoOptional.isEmpty()){
             return "error";
         }
-
         Asiento asiento = asientoOptional.get();
 
         asiento.setDisponible(false);
@@ -55,9 +52,9 @@ public class TicketController {
 
         Ticket ticket = new Ticket();
 
-        ticket.setIdFuncion(idFuncion);
-        ticket.setIdAsiento(idAsiento);
-        ticket.setIdUsuario(usuario.getId());
+        ticket.setFuncion(funcion);
+        ticket.setAsiento(asiento);
+        ticket.setUsuario(usuario);
         ticketRepository.save(ticket);
 
         return "compra";
@@ -65,11 +62,11 @@ public class TicketController {
 
     @GetMapping("/tickets")
     public String mostrarTickets(Model model, @AuthenticationPrincipal Usuario usuario){
-        List<Ticket> ticketList = ticketRepository.findAllByIdUsuario(usuario.getId());
+        List<Ticket> ticketList = ticketRepository.findAllByUsuario(usuario);
         List<TicketFuncion> ticketFuncionList = new ArrayList<>();
 
         for (Ticket ticket : ticketList) {
-            Funcion funcion = funcionRepository.findById((long) ticket.getIdFuncion()).orElse(null);
+            Funcion funcion = funcionRepository.findById((long) ticket.getFuncion().getId()).orElse(null);
             ticketFuncionList.add(new TicketFuncion(ticket, funcion));
         }
 

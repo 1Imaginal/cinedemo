@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Carrito</title>
+</head>
+<body>
+    <h1>Mi Carrito</h1>
+    <h2>Asientos seleccionados</h2>
+    <ol>
+        <li th:each="a : ${asientos}">
+            <p th:text="${a.numero}"></p>
+        </li>
+    </ol>
+    <a href="../">Regresar</a>
+</body>
+</html>
