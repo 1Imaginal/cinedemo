@@ -8,4 +8,6 @@ import java.util.Optional;
 
 public interface CarritoRepository extends JpaRepository<Carrito,Long> {
     Optional<Carrito> findByUsuario(Usuario usuario);
+
+    void deleteAllByUsuario(Usuario usuario);
 }

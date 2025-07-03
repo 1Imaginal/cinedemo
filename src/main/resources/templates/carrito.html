@@ -10,8 +10,15 @@
     <ol>
         <li th:each="a : ${asientos}">
             <p th:text="${a.numero}"></p>
+            <p th:text="${a.funcion}"></p>
         </li>
     </ol>
+    <form th:action="@{/comprar}" method="post">
+        <div th:each="a : ${asientos}">
+            <input type="hidden" name="asientoIds" th:value="${a.id}" />
+        </div>
+        <button type="submit">Comprar</button>
+    </form>
     <a href="../">Regresar</a>
 </body>
 </html>

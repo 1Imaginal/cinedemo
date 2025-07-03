@@ -8,10 +8,10 @@
   <h1>Mis Tickets</h1>
   <br>
   <ol>
-    <li th:each="tf : ${ticketsFuncion}">
-      <p th:text="${tf.funcion.pelicula.nombre}"></p>
-      <p th:text="${tf.funcion.horario}"></p>
-      <p th:text="${tf.ticket.idAsiento}"></p>
+    <li th:each="t : ${tickets}">
+      <p th:text="${t.funcion.pelicula.nombre}"></p>
+      <p th:text="${t.funcion.horario}"></p>
+      <p th:text="${t.Asiento.id}"></p>
     </li>
   </ol>
   <a href="../">Regresar</a>

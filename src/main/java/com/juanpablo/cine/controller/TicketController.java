@@ -1,24 +1,19 @@
 package com.juanpablo.cine.controller;
 
 import com.juanpablo.cine.dto.TicketFuncion;
-import com.juanpablo.cine.models.Asiento;
-import com.juanpablo.cine.models.Funcion;
-import com.juanpablo.cine.models.Ticket;
-import com.juanpablo.cine.models.Usuario;
-import com.juanpablo.cine.repository.AsientoRepository;
-import com.juanpablo.cine.repository.FuncionRepository;
-import com.juanpablo.cine.repository.TicketRepository;
+import com.juanpablo.cine.models.*;
+import com.juanpablo.cine.repository.*;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
 @Controller
+@Transactional
 public class TicketController {
 
     @Autowired
@@ -28,49 +23,42 @@ public class TicketController {
     FuncionRepository funcionRepository;
 
     @Autowired
+    AsientosCarritoRepository asientosCarritoRepository;
+
+    @Autowired
+    CarritoRepository carritoRepository;
+
+    @Autowired
     AsientoRepository asientoRepository;
 
-    @PostMapping("/tickets")
-    public String comprarTicket(@RequestParam(name = "idFuncion") long idFuncion,
-                                @RequestParam(name = "idAsiento") long idAsiento,
+    @PostMapping("/comprar")
+    public String comprarTicket(@RequestParam("asientoIds") List<Long> asientoIds,
                                 @AuthenticationPrincipal Usuario usuario){
 
-        Optional<Funcion> funcionOptional = funcionRepository.findById(idFuncion);
-        if(funcionOptional.isEmpty()){
+        if (asientoIds == null || asientoIds.isEmpty()) {
             return "error";
         }
-        Funcion funcion = funcionOptional.get();
 
-        Optional<Asiento> asientoOptional = asientoRepository.findById(idAsiento);
-        if(asientoOptional.isEmpty()){
-            return "error";
+        for (Long id : asientoIds) {
+            Asiento asiento = asientoRepository.findById(id).orElseThrow(); // o manejar con ifPresent
+            Ticket ticket = new Ticket();
+            ticket.setFuncion(asiento.getFuncion());
+            ticket.setUsuario(usuario);
+            ticket.setAsiento(asiento);
+            ticketRepository.save(ticket);
+            asientosCarritoRepository.deleteByAsiento(asiento);
         }
-        Asiento asiento = asientoOptional.get();
 
-        asiento.setDisponible(false);
-        asientoRepository.save(asiento);
+        carritoRepository.deleteAllByUsuario(usuario);
 
-        Ticket ticket = new Ticket();
-
-        ticket.setFuncion(funcion);
-        ticket.setAsiento(asiento);
-        ticket.setUsuario(usuario);
-        ticketRepository.save(ticket);
-
-        return "compra";
+        return "redirect:/tickets";
     }
 
-    @GetMapping("/tickets")
+    @RequestMapping ("/tickets")
     public String mostrarTickets(Model model, @AuthenticationPrincipal Usuario usuario){
         List<Ticket> ticketList = ticketRepository.findAllByUsuario(usuario);
-        List<TicketFuncion> ticketFuncionList = new ArrayList<>();
 
-        for (Ticket ticket : ticketList) {
-            Funcion funcion = funcionRepository.findById((long) ticket.getFuncion().getId()).orElse(null);
-            ticketFuncionList.add(new TicketFuncion(ticket, funcion));
-        }
-
-        model.addAttribute("ticketsFuncion", ticketFuncionList);
+        model.addAttribute("tickets", ticketList);
         return "tickets";
     }
 }

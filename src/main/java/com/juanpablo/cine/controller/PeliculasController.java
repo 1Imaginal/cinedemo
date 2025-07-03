@@ -25,7 +25,7 @@ public class PeliculasController {
         return "cartelera";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id:[0-9]+}")
     public String mostrarDetalles(Model model, @PathVariable long id){
         Optional<Pelicula> peliculaOptional = peliculaRepository.findById(id);
         if(peliculaOptional.isPresent()){
