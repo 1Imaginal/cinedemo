@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de control peliculas</title>
+</head>
+<body>
+    <h1>Panel de control Peliculas</h1>
+    <h3>Lista de Peliculas</h3>
+    <ol>
+      <li th:each="p : ${peliculas}">
+        <p th:text="${p.id}">Id</p>
+        <p th:text="${p.nombre}">Nombre de usuario</p>
+        <form th:action="@{/control/catalogo}" method="post">
+          <input type="hidden" name="id" th:value="${p.id}">
+          <button type="submit">Eliminar pelicula</button>
+        </form>
+      </li>
+    </ol>
+    <a href="/control">Regresar</a>
+</body>
+</html>

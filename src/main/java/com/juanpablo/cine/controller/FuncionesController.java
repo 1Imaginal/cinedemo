@@ -30,7 +30,7 @@ public class FuncionesController {
             if(peliculaOptional.isPresent()){
                 Pelicula pelicula = peliculaOptional.get();
                 model.addAttribute("nombre", pelicula.getNombre());
-                List<Funcion> funciones = funcionRepository.findAllByidPelicula(id);
+                List<Funcion> funciones = funcionRepository.findAllByPelicula(pelicula);
                 if(!funciones.isEmpty()){
                     model.addAttribute("funciones", funciones);
                     funciones.forEach(f -> System.out.println(f.getHorario()));

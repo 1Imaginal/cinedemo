@@ -28,7 +28,6 @@ public class Pelicula {
 
     private boolean proyectada;
 
-    @OneToMany
-    @JoinTable(name = "generos")
+    @ManyToMany
     private List<Genero> generos;
 }

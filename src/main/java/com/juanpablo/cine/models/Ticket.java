@@ -17,11 +17,11 @@ public class Ticket {
     @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario usuario;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "id_asiento", nullable = false)
     private Asiento asiento;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "id_funcion", nullable = false)
     private Funcion funcion;
 }

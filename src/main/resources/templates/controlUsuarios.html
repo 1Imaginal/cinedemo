@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de control Usuarios</title>
+</head>
+<body>
+  <h1>Panel de control Usuarios</h1>
+  <h3>Lista de usuarios</h3>
+  <ol>
+    <li th:each="u : ${usuarios}">
+      <p th:text="${u.id}">Id</p>
+      <p th:text="${u.username}">Nombre de usuario</p>
+      <p th:text="${u.role}">Rol</p>
+      <form th:action="@{/control/usuarios}" method="post">
+        <input type="hidden" name="id" th:value="${u.id}">
+        <button type="submit">Eliminar usuario</button>
+      </form>
+    </li>
+  </ol>
+  <a href="/control">Regresar</a>
+</body>
+</html>

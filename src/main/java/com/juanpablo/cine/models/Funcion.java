@@ -15,15 +15,14 @@ public class Funcion {
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private int id;
 
-    private int idSala;
+    @ManyToOne
+    Sala sala;
 
-    private int idPelicula;
+    @ManyToOne
+    Pelicula pelicula;
 
     private Timestamp horario;
 
-    private int precio;
+    private long precio;
 
-    @ManyToOne
-    @JoinColumn(name = "idPelicula", insertable = false, updatable = false)
-    private Pelicula pelicula;
 }

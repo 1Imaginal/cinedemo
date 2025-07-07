@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de control tickets</title>
+</head>
+<body>
+    <h1>Panel de control Tickets</h1>
+    <h3>Lista de Tickets</h3>
+    <ol>
+        <li th:each="t : ${tickets}">
+            <p th:text="${t.id}">Id</p>
+            <p th:text="${t.usuario.username}">Usuario</p>
+            <p th:text="${t.funcion.pelicula.nombre}">Pelicula </p>
+            <p th:text="|Asiento #${t.asiento.numero}|">Asiento</p>
+            <p th:text="${t.funcion.horario}">Horario</p>
+            <form th:action="@{/control/tickets}" method="post">
+                <input type="hidden" name="id" th:value="${t.id}">
+                <button type="submit">Eliminar ticket</button>
+            </form>
+        </li>
+    </ol>
+    <a href="/control">Regresar</a>
+</body>
+</html>

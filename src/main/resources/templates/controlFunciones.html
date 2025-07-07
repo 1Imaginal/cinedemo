@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de control Funciones</title>
+</head>
+<body>
+  <h1>Panel de control Funciones</h1>
+  <h3>Agregar funcion</h3>
+  <form th:action="@{/control/agregarFuncion}" method="post">
+    <p>Pelicula</p>
+    <select name="idPelicula" id="idPelicula">
+      <th:block th:each="p : ${peliculas}">
+        <option th:value="${p.id}" th:text="${p.nombre}"></option>
+      </th:block>
+    </select>
+    <p>Salas</p>
+      <th:block th:each="s : ${salas}">
+        <input type="checkbox" name="idSalas[]" th:id="${s.id}" th:value="${s.id}" th:text="${s.id}">
+      </th:block>
+    <br> <br>
+    <label for="horario">Fecha y hora</label>
+    <input type="datetime-local" name="horario" id="horario">
+    <br> <br>
+    <label for="precio">Precio</label>
+    <input type="number" name="precio" id="precio">
+    <br><br>
+    <input type="submit" value="Enviar">
+  </form>
+  <h3>Lista de funciones</h3>
+  <ol>
+    <li th:each="f : ${funciones}">
+      <p th:text="${f.id}">Id</p>
+      <p th:text="${f.Sala.id}">Sala</p>
+      <p th:text="${f.pelicula.nombre}">Pelicula</p>
+      <p th:text="${f.horario}">Horario</p>
+      <p th:text="${f.precio}">Precio</p>
+      <form th:action="@{/control/funciones}" method="post">
+        <input type="hidden" name="id" th:value="${f.id}">
+        <button type="submit">Eliminar Funcion</button>
+      </form>
+    </li>
+  </ol>
+  <a href="/control">Regresar</a>
+</body>
+</html>
