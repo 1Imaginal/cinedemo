@@ -39,6 +39,10 @@
         <input type="hidden" name="id" th:value="${f.id}">
         <button type="submit">Eliminar Funcion</button>
       </form>
+      <form th:action="@{/control/funciones/${f.id}} " method="get">
+        <input type="hidden" name="id" th:value="${f.id}">
+        <button type="submit">Modificar Funcion</button>
+      </form>
     </li>
   </ol>
   <a href="/control">Regresar</a>

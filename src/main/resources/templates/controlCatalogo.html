@@ -15,6 +15,10 @@
           <input type="hidden" name="id" th:value="${p.id}">
           <button type="submit">Eliminar pelicula</button>
         </form>
+        <form th:action="@{/control/catalogo/{id}(id=${p.id})} " method="get">
+          <input type="hidden" name="id" th:value="${p.id}">
+          <button type="submit">Modificar Pelicula</button>
+        </form>
       </li>
     </ol>
     <a href="/control">Regresar</a>

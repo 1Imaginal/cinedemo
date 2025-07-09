@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Modificar Pelicula</title>
+</head>
+<body>
+  <h1>Modificar pelicula</h1>
+  <form th:action="@{/control/catalogo/{id}(id=${pelicula.id})}" method="post">
+    <label for="nombre">Nombre de la pelicula</label>
+    <input type="text" name="nombre" id="nombre" th:placeholder="${pelicula.nombre}">
+    <br><br>
+    <label for="descripcion">Descripcion</label> <br>
+    <textarea name="descripcion" id="descripcion" cols="30" rows="10" th:placeholder="${pelicula.descripcion}"></textarea>
+    <br><br>
+    <label for="anio">Año de lanzamiento</label>
+    <input type="number" name="anio" id="anio" th:placeholcer="${pelicula.anio}">
+    <br><br>
+    <label for="disponible">Disponible</label>
+    <input type="checkbox" name="disponible" id="disponible" th:checked="${pelicula.proyectada}">
+    <br><br>
+    <select name="clasificacion" id="clasificacion">
+      <option value="AA" th:selected="${pelicula.clasificacion == 'AA'}">AA</option>
+      <option value="A" th:selected="${pelicula.clasificacion == 'A'}">A</option>
+      <option value="B" th:selected="${pelicula.clasificacion == 'B'}">B</option>
+      <option value="B15" th:selected="${pelicula.clasificacion == 'B15'}">B15</option>
+      <option value="C" th:selected="${pelicula.clasificacion == 'C'}">C</option>
+    </select>
+    <br> <br>
+    <label for="duracion">Duracion</label>
+    <input type="number" name="duracion" id="duracion" th:placeholder="${pelicula.duracion}">
+    <br><br>
+    <th:block th:each="genero : ${generos}">
+      <input type="checkbox" name="idGeneros" th:id="${genero.id}"th:value="${genero.id}" th:checked="${pelicula.generos.contains(genero)}"/>
+      <span th:text="${genero.nombre}"></span>
+    </th:block>
+    <br><br>
+    <button type="submit">Modificar</button>
+    <br><br>
+  </form>
+  <a href="/control/catalogo">Regresar</a>
+  <br><br>
+</body>
+</html>

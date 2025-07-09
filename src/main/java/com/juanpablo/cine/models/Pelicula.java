@@ -22,12 +22,12 @@ public class Pelicula {
 
     private int anio;
 
-    private char clasificacion;
+    private String clasificacion;
 
     private int duracion;
 
     private boolean proyectada;
 
     @ManyToMany
-    private List<Genero> generos;
+    private Set<Genero> generos;
 }

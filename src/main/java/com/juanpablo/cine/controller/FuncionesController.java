@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Controller
 public class FuncionesController {
@@ -30,7 +29,7 @@ public class FuncionesController {
             if(peliculaOptional.isPresent()){
                 Pelicula pelicula = peliculaOptional.get();
                 model.addAttribute("nombre", pelicula.getNombre());
-                List<Funcion> funciones = funcionRepository.findAllByPelicula(pelicula);
+                List<Funcion> funciones = funcionRepository.findAllByPeliculaOrderById(pelicula);
                 if(!funciones.isEmpty()){
                     model.addAttribute("funciones", funciones);
                     funciones.forEach(f -> System.out.println(f.getHorario()));
@@ -38,7 +37,7 @@ public class FuncionesController {
                 }
             }
         } else {
-            List<Funcion> funciones = funcionRepository.findAll();
+            List<Funcion> funciones = funcionRepository.findAllByOrderById();
             if(!funciones.isEmpty()){
                 model.addAttribute("nombre", "CineDemo");
                 model.addAttribute("funciones",funciones);

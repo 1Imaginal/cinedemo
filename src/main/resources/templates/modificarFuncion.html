@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Modificar Funcion</title>
+</head>
+<body>
+    <h1 th:text="|Funcion #${funcion.id}|">Numero de la funcion</h1>
+    <form th:action="@{/control/funciones/{id}}" method="post">
+        <input type="hidden" name="id" th:value="${funcion.id}">
+        <label for="pelicula">Pelicula</label>
+        <select name="pelicula" id="pelicula">
+            <th:block th:each="p : ${peliculas}">
+                <option th:value="${p.id}" th:text="${p.nombre}"></option>
+            </th:block>
+        </select>
+        <table>
+            <tbody>
+            <tr th:each="fila : ${#numbers.sequence(0, (asientos.size() - 1) / 5)}">
+                <td th:each="asiento : ${asientos.subList(fila * 5, T(java.lang.Math).min((fila + 1) * 5, asientos.size()))}">
+                    <input
+                            th:text="${asiento.numero}"
+                            th:checked="${!asiento.disponible}"
+                            th:attr="name='idAsiento', value=${asiento.id}"
+                            type="checkbox"
+                            class="checkbox-asiento"
+                    >
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <label for="horario">Fecha y hora</label>
+        <input type="datetime-local" name="horario" id="horario">
+        <br> <br>
+        <label for="precio">Precio</label>
+        <input type="number" name="precio" id="precio">
+        <br> <br>
+        <button type="submit">Modificar</button>
+    </form>
+    <br>
+    <a href="/control/funciones">Regresar</a>
+
+</body>
+</html>

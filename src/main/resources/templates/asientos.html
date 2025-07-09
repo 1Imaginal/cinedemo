@@ -6,9 +6,8 @@
 </head>
 <body>
     <h1>Seleccione sus asientos</h1>
-    <form action="/carrito" method="post" id="form">
+    <form th:action="@{/carrito}" method="post" id="form">
         <input type="hidden" name="idFuncion" th:value="${funcion.id}" />
-        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
         <table>
             <tbody>
             <tr th:each="fila : ${#numbers.sequence(0, (asientos.size() - 1) / 5)}">

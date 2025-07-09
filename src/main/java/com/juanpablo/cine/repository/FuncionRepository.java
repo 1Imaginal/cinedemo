@@ -7,5 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface FuncionRepository extends JpaRepository<Funcion, Long> {
-    List<Funcion> findAllByPelicula(Pelicula pelicula);
+    List<Funcion> findAllByPeliculaOrderById(Pelicula pelicula);
+
+    List<Funcion> findAllByOrderById();
 }

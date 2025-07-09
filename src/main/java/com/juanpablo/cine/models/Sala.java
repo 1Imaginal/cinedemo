@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table(name = "salas")
 @Getter @Setter
@@ -14,5 +16,8 @@ public class Sala {
     private int id;
 
     private int capacidad;
+
+    @OneToMany
+    List<Funcion> funciones;
 
 }
