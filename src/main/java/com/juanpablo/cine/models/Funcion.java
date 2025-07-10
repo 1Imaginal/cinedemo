@@ -29,4 +29,13 @@ public class Funcion {
 
     private long precio;
 
+    public Funcion() {
+    }
+
+    public Funcion(Sala sala, Pelicula pelicula, Timestamp horario, long precio) {
+        this.sala = sala;
+        this.pelicula = pelicula;
+        this.horario = horario;
+        this.precio = precio;
+    }
 }

@@ -6,6 +6,41 @@
 </head>
 <body>
     <h1>Panel de control Peliculas</h1>
+    <div class="agregarPelicula">
+        <h1>Agregar pelicula</h1>
+        <form th:action="@{/agregarPelicula}" method="post">
+            <label for="nombre">Nombre</label>
+            <input type="text" name="nombre" id="nombre">
+            <br><br>
+            <label for="descripcion">Descripcion</label> <br>
+            <textarea name="descripcion" id="descripcion" cols="30" rows="10"></textarea>
+            <br><br>
+            <label for="anio">Año de lanzamiento</label>
+            <input type="number" name="anio" id="anio">
+            <br><br>
+            <label for="disponible">Disponible</label>
+            <input type="checkbox" name="disponible" id="disponible">
+            <br><br>
+            <select name="clasificacion" id="clasificacion">
+                <option value="AA">AA</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="B15">B15</option>
+                <option value="C">C</option>
+            </select>
+            <br> <br>
+            <label for="duracion">Duracion</label>
+            <input type="number" name="duracion" id="duracion">
+            <br><br>
+            <th:block th:each="genero : ${generos}">
+                <input type="checkbox" name="idGeneros" th:id="${genero.id}"th:value="${genero.id}"/>
+                <span th:text="${genero.nombre}"></span>
+            </th:block>
+            <br><br>
+            <button type="submit">Agregar</button>
+            <br><br>
+        </form>
+    </div>
     <h3>Lista de Peliculas</h3>
     <ol>
       <li th:each="p : ${peliculas}">

@@ -22,6 +22,9 @@ public class AdminService {
     PeliculasRepository peliculasRepository;
 
     @Autowired
+    GeneroRepository generoRepository;
+
+    @Autowired
     FuncionRepository funcionRepository;
 
     @Autowired
@@ -52,6 +55,10 @@ public class AdminService {
     public String mostrarCatalogo(Model model){
         List<Pelicula> peliculas = peliculasRepository.findAll();
         model.addAttribute("peliculas", peliculas);
+
+        List<Genero> generos = generoRepository.findAll();
+        model.addAttribute("generos", generos);
+
         return "controlCatalogo";
     }
 
@@ -124,7 +131,6 @@ public class AdminService {
     @Transactional
     public void agregarFuncion(long idPelicula, List<Long> idSalas, String horarioString, long precio) {
         Pelicula pelicula = peliculasRepository.findById(idPelicula).orElseThrow(() -> new RuntimeException("No se encontro la pelicula"));
-        List<Sala> salas = new ArrayList<>();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
         Timestamp horario;
 
@@ -135,21 +141,13 @@ public class AdminService {
             throw new RuntimeException("Error al convertir la fecha");
         }
 
-        for(Long id: idSalas){
-            Sala sala = salasRepository.findById(id).orElseThrow(() -> new RuntimeException("Id de sala invalido"));
-            salas.add(sala);
-        }
+        List<Sala> salas = new ArrayList<>();
+        salas.addAll(salasRepository.findAllById(idSalas));
 
         for(Sala sala: salas){
-            Funcion funcion = new Funcion();
-            funcion.setPelicula(pelicula);
-            funcion.setSala(sala);
-            funcion.setHorario(horario);
-            funcion.setPrecio(precio);
-
+            Funcion funcion = new Funcion(sala, pelicula, horario, precio);
             funcionRepository.save(funcion);
         }
-
     }
 
     public String mostrarFuncion(Model model, long id) {

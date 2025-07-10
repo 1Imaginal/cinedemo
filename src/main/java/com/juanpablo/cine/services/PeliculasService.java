@@ -44,7 +44,7 @@ public class PeliculasService {
         if(!descripcion.isEmpty())pelicula.setDescripcion(descripcion);
         if(anio != null)pelicula.setAnio(anio);
         if(duracion != null)pelicula.setDuracion(duracion);
-        pelicula.setProyectada(disponible);
+        pelicula.setDisponible(disponible);
         pelicula.setClasificacion(clasificacion);
 
         Set<Genero> generos = new HashSet<>();
@@ -55,6 +55,15 @@ public class PeliculasService {
 
         pelicula.setGeneros(generos);
 
+        peliculasRepository.save(pelicula);
+    }
+
+    @Transactional
+    public void agregarPelicula(String nombre, String descripcion, Integer anio, String clasificacion, boolean disponible,  Integer duracion,Set<Long> idGeneros){
+        Set<Genero> generos = new HashSet<>();
+        generos.addAll(generoRepositoy.findAllById(idGeneros));
+
+        Pelicula pelicula = new Pelicula(nombre, descripcion, anio, clasificacion, duracion, disponible, generos);
         peliculasRepository.save(pelicula);
     }
 }
