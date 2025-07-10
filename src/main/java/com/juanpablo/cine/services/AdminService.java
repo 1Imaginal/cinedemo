@@ -118,15 +118,7 @@ public class AdminService {
         funcionRepository.delete(funcion);
     }
 
-    @Transactional
-    public void eliminarTicket(long id){
-        Ticket ticket = ticketRepository.findById(id).orElseThrow(()->new RuntimeException("No se encontro el ticket"));
 
-        Asiento asiento = ticket.getAsiento();
-        asiento.setDisponible(true);
-
-        ticketRepository.delete(ticket);
-    }
 
     @Transactional
     public void agregarFuncion(long idPelicula, List<Long> idSalas, String horarioString, long precio) {

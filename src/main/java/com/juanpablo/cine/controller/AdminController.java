@@ -3,6 +3,7 @@ package com.juanpablo.cine.controller;
 import com.juanpablo.cine.models.Funcion;
 import com.juanpablo.cine.services.AdminService;
 import com.juanpablo.cine.services.PeliculasService;
+import com.juanpablo.cine.services.TicketsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +21,9 @@ public class AdminController {
 
     @Autowired
     PeliculasService peliculasService;
+
+    @Autowired
+    TicketsService ticketsService;
 
     @RequestMapping("/control")
     public String mostarPanelControl(){
@@ -65,7 +69,7 @@ public class AdminController {
 
     @PostMapping("/control/tickets")
     public String eliminarTicket(@RequestParam long id){
-        adminService.eliminarTicket(id);
+       ticketsService.eliminarTicket(id);
         return "redirect:/control/tickets";
     }
 

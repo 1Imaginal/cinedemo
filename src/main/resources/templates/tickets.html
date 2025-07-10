@@ -12,6 +12,14 @@
       <p th:text="${t.funcion.pelicula.nombre}"></p>
       <p th:text="${t.funcion.horario}"></p>
       <p th:text="${t.Asiento.id}"></p>
+      <form th:action="@{/mostrarQR}" method="get">
+        <input type="hidden" name="id" th:value="${t.id}">
+        <button type="submit">Mostrar QR</button>
+      </form>
+      <form th:action="@{/reembolsarTicket}" method="post">
+        <input type="hidden" name="id" th:value="${t.id}">
+        <button type="submit">Reembolsar</button>
+      </form>
     </li>
   </ol>
   <a href="../">Regresar</a>
