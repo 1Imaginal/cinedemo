@@ -1,9 +1,15 @@
 package com.juanpablo.cine.controller;
 
+import com.juanpablo.cine.models.Genero;
 import com.juanpablo.cine.models.Pelicula;
+import com.juanpablo.cine.models.Review;
+import com.juanpablo.cine.models.Usuario;
+import com.juanpablo.cine.repository.GeneroRepository;
 import com.juanpablo.cine.repository.PeliculasRepository;
+import com.juanpablo.cine.repository.ReviewRepository;
 import com.juanpablo.cine.services.PeliculasService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,16 +25,35 @@ import java.util.Set;
 public class PeliculasController {
 
     @Autowired
-    private PeliculasRepository peliculaRepository;
+    PeliculasRepository peliculaRepository;
+
+    @Autowired
+    GeneroRepository generoRepository;
 
     @Autowired
     PeliculasService peliculasService;
 
+    @Autowired
+    ReviewRepository reviewRepository;
+
     @GetMapping("/cartelera")
-    public String mostrarCartelera(Model model){
-        List<Pelicula> peliculas = peliculaRepository.findAll();
-        model.addAttribute("peliculas", peliculas);
-        peliculas.forEach(p -> System.out.println(p.getNombre()));
+    public String mostrarCartelera(Model model,
+                                   @RequestParam(required = false) List<Long> idGeneros,
+                                   @RequestParam(required = false) String nombre) {
+        if(idGeneros == null && nombre == null) {
+            List<Pelicula> peliculas = peliculaRepository.findAll();
+            model.addAttribute("peliculas", peliculas);
+        }else if (nombre != null){
+            List<Pelicula> peliculas = peliculaRepository.findByNombreContaining(nombre);
+            model.addAttribute("peliculas", peliculas);
+        } else {
+            List<Genero> generosSeleccionados = generoRepository.findAllById(idGeneros);
+            List<Pelicula> peliculas = peliculaRepository.findDistinctByGenerosIn(generosSeleccionados);
+            model.addAttribute("peliculas", peliculas);
+        }
+
+        List<Genero> generos = generoRepository.findAll();
+        model.addAttribute("generos", generos);
         return "cartelera";
     }
 
@@ -38,6 +63,10 @@ public class PeliculasController {
         if(peliculaOptional.isPresent()){
             Pelicula pelicula = peliculaOptional.get();
             model.addAttribute("pelicula", pelicula);
+
+            List<Review> reviews = reviewRepository.findByPelicula(pelicula);
+            model.addAttribute("reviews", reviews);
+
             return "pelicula";
         }else{
             return "error";
@@ -56,4 +85,18 @@ public class PeliculasController {
         peliculasService.agregarPelicula(nombre,descripcion,anio,clasificacion,disponible,duracion,idGeneros);
         return "redirect:/control/catalogo";
     }
+
+    @PostMapping("/calificar")
+    public String guardarReview(@AuthenticationPrincipal Usuario usuario,
+                                @RequestParam Long idPelicula,
+                                @RequestParam int calificacion,
+                                @RequestParam String contenido){
+
+        Pelicula pelicula = peliculaRepository.findById(idPelicula).orElseThrow(()->new RuntimeException("Pelicula no encontrada"));
+        Review review = new Review(usuario, pelicula, calificacion, contenido);
+
+        peliculasService.guardarReview(review);
+        return "redirect:/" + idPelicula;
+    }
+
 }

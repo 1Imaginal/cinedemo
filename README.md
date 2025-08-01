@@ -12,10 +12,10 @@ Web movie theater app where you can see available movies and reserve tickets
 - Be able to book a seat - Done?
 - Be able to book more than one seat at the same time - Done?
 - Payment simulation - X
-- Cancelling and reembolsing tickets - X
+- Cancelling and reembolsing tickets - In progress (missing reembolsing)
 - Send a confirmation mail after booking a ticket - X
 - User sessions for booking and accessing booked seats - In progress
-- QR generated ticket that stores room and seat number - X
+- QR generated ticket that stores room and seat number - Done?
 - Review system for movies - X
 - Error handling - X
 - Admin functions for CRUD - Done?
@@ -23,5 +23,6 @@ Web movie theater app where you can see available movies and reserve tickets
 - Style and presentation - X
 - Show alerts when making changes to the database - X
 - Basic security and input validation - X
+- Manage screenings automatically based on date-time - X
 
 

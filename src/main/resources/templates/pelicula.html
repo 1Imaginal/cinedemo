@@ -11,5 +11,37 @@
     <p th:text="|${pelicula.duracion} Minutos|">Duracion de la pelicula</p>
     <p th:text="|Clasificacion ${pelicula.clasificacion}|">Clasificacion de la pelicula</p><br>
     <a th:href="@{/funciones(id=${pelicula.id})}"><h2>Comprar boletos</h2></a>
+
+    <div class="miReview">
+        <h3>Compartenos que te pareció la pelicula</h3>
+        <form th:action="@{/calificar}" method="post">
+            <input type="hidden" name="idPelicula" th:value="${pelicula.id}">
+            <textarea id="contenido" name="contenido"></textarea> <br>
+            <label for="calificacion">Calificacion</label> <br>
+            <select name="calificacion" id="calificacion">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select> <br>
+            <input type="submit" value="Calificar">
+        </form>
+    </div>
+    <br><br>
+    <div class="reviews">
+        <h2>Reseñas</h2>
+        <th:block>
+            <span th:unless="${reviews}">No hay reseñas sobre esta pelicula.</span>
+            <div th:if="${reviews}" th:each="review : ${reviews}">
+                <span th:text="${review.usuario.username}">Nombre de usuario</span>
+                <br>
+                <span th:text="${review.contenido}">Contenido</span>
+                <br>
+                <span th:text="|Calificacion del usuario: ${review.calificacion}|">Calificacion</span>
+                <br><br>
+            </div>
+        </th:block>
+    </div>
 </body>
 </html>

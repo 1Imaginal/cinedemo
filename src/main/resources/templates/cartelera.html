@@ -6,10 +6,24 @@
 </head>
 <body>
     <h1>Cartelera CineDemo</h1>
+    <form th:action="@{/cartelera}" method="get">
+        <label for="nombre">Nombre</label>
+        <input type="text" name="nombre" id="nombre">
+        <button type="submit">Buscar</button>
+    </form>
+    <h2>Generos</h2>
+    <form th:action="@{/cartelera}" method="get">
+        <th:block th:each="genero : ${generos}">
+            <input type="checkbox" name="idGeneros" th:id="${genero.id}"th:value="${genero.id}"/>
+            <span th:text="${genero.nombre}"></span>
+        </th:block>
+        <button type="submit">Filtrar</button>
+    </form>
     <ul>
         <li th:each="p : ${peliculas}">
             <a th:href="@{${p.id}}"><strong th:text="${p.nombre}">Nombre</strong></a>
         </li>
     </ul>
+    <a href="../">Regresar</a>
 </body>
 </html>

@@ -2,8 +2,10 @@ package com.juanpablo.cine.services;
 
 import com.juanpablo.cine.models.Genero;
 import com.juanpablo.cine.models.Pelicula;
+import com.juanpablo.cine.models.Review;
 import com.juanpablo.cine.repository.GeneroRepository;
 import com.juanpablo.cine.repository.PeliculasRepository;
+import com.juanpablo.cine.repository.ReviewRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,9 @@ public class PeliculasService {
 
     @Autowired
     GeneroRepository generoRepositoy;
+
+    @Autowired
+    ReviewRepository reviewRepository;
 
     public String mostrarPelicula(Model model, long id) {
         Pelicula pelicula = peliculasRepository.findById(id).orElseThrow(()->new RuntimeException("No se encotro la pelicula"));
@@ -65,5 +70,10 @@ public class PeliculasService {
 
         Pelicula pelicula = new Pelicula(nombre, descripcion, anio, clasificacion, duracion, disponible, generos);
         peliculasRepository.save(pelicula);
+    }
+
+    @Transactional
+    public void guardarReview(Review review){
+        reviewRepository.save(review);
     }
 }
