@@ -12,12 +12,34 @@
     <p th:text="|Clasificacion ${pelicula.clasificacion}|">Clasificacion de la pelicula</p><br>
     <a th:href="@{/funciones(id=${pelicula.id})}"><h2>Comprar boletos</h2></a>
 
-    <div class="miReview">
-        <h3>Compartenos que te pareció la pelicula</h3>
+    <div class="miReview" th:if="${reviewExistente.present}">
+        <h3>¡Ya calificaste esta película! Puedes actualizar tu review:</h3>
         <form th:action="@{/calificar}" method="post">
             <input type="hidden" name="idPelicula" th:value="${pelicula.id}">
-            <textarea id="contenido" name="contenido"></textarea> <br>
-            <label for="calificacion">Calificacion</label> <br>
+
+            <textarea id="contenido" name="contenido"
+                      th:text="${reviewExistente.get().contenido}"></textarea> <br>
+
+            <label for="calificacion">Calificación</label> <br>
+            <select name="calificacion" id="calificacion">
+                <option th:value="1" th:selected="${reviewExistente.get().calificacion == 1}">1</option>
+                <option th:value="2" th:selected="${reviewExistente.get().calificacion == 2}">2</option>
+                <option th:value="3" th:selected="${reviewExistente.get().calificacion == 3}">3</option>
+                <option th:value="4" th:selected="${reviewExistente.get().calificacion == 4}">4</option>
+                <option th:value="5" th:selected="${reviewExistente.get().calificacion == 5}">5</option>
+            </select> <br>
+            <input type="submit" value="Actualizar review">
+        </form>
+    </div>
+
+    <div class="miReview" th:unless="${reviewExistente.present}">
+        <h3>Compártenos qué te pareció la película:</h3>
+        <form th:action="@{/calificar}" method="post">
+            <input type="hidden" name="idPelicula" th:value="${pelicula.id}">
+
+            <textarea id="contenido" name="contenido" placeholder="Escribe tu opinión aquí..."></textarea> <br>
+
+            <label for="calificacion">Calificación</label> <br>
             <select name="calificacion" id="calificacion">
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -32,7 +54,7 @@
     <div class="reviews">
         <h2>Reseñas</h2>
         <th:block>
-            <span th:unless="${reviews}">No hay reseñas sobre esta pelicula.</span>
+            <span th:if="${#lists.isEmpty(reviews)}">No hay reseñas sobre esta pelicula.</span>
             <div th:if="${reviews}" th:each="review : ${reviews}">
                 <span th:text="${review.usuario.username}">Nombre de usuario</span>
                 <br>

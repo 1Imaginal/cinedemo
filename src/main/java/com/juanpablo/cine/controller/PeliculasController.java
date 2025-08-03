@@ -58,7 +58,9 @@ public class PeliculasController {
     }
 
     @GetMapping("/{id:[0-9]+}")
-    public String mostrarDetalles(Model model, @PathVariable long id){
+    public String mostrarDetalles(Model model,
+                                  @PathVariable long id,
+                                  @AuthenticationPrincipal Usuario usuario){
         Optional<Pelicula> peliculaOptional = peliculaRepository.findById(id);
         if(peliculaOptional.isPresent()){
             Pelicula pelicula = peliculaOptional.get();
@@ -66,6 +68,9 @@ public class PeliculasController {
 
             List<Review> reviews = reviewRepository.findByPelicula(pelicula);
             model.addAttribute("reviews", reviews);
+
+            Optional<Review> reviewExistente = reviewRepository.findByPeliculaAndUsuario(pelicula, usuario);
+            model.addAttribute("reviewExistente", reviewExistente);
 
             return "pelicula";
         }else{
@@ -93,7 +98,15 @@ public class PeliculasController {
                                 @RequestParam String contenido){
 
         Pelicula pelicula = peliculaRepository.findById(idPelicula).orElseThrow(()->new RuntimeException("Pelicula no encontrada"));
-        Review review = new Review(usuario, pelicula, calificacion, contenido);
+
+        Optional<Review> reviewExistente = reviewRepository.findByPeliculaAndUsuario(pelicula, usuario);
+
+        Review review;
+        if(reviewExistente.isPresent()){
+            review = reviewExistente.get();
+            review.setCalificacion(calificacion);
+            review.setContenido(contenido);
+        } else {review = new Review(usuario, pelicula, calificacion, contenido);}
 
         peliculasService.guardarReview(review);
         return "redirect:/" + idPelicula;
